@@ -16,6 +16,8 @@ searchInputEl.addEventListener("blur", ()=> {
 });
 
 const badgeEl = document.querySelector('header .badges');
+const toTopEl = document.querySelector('#to-top')
+
 
 window.addEventListener('scroll', _.throttle(() => {
     if(window.scrollY > 500){
@@ -23,13 +25,25 @@ window.addEventListener('scroll', _.throttle(() => {
             opacity: 0,
             display: "none"
         });
+        gsap.to('#to-top', .2, {
+            x: 0
+        })
     }else{
         gsap.to(badgeEl, 0.6, {
             opacity: 1,
             display: "block"
         });
+        gsap.to(toTopEl, .2, {
+            x: 100
+        })
     }
 }, 300))
+
+toTopEl.addEventListener('click', function(){
+    gsap.to(window, .7, {
+        scrollTo: 0
+    });
+})
 
 const fadeEls = document.querySelectorAll('.visual .fade-in');
 fadeEls.forEach(function (fadeEl, index) {
@@ -60,6 +74,18 @@ new Swiper('.promotion .swiper-container', {
     navigation: {
         prevEl: '.promotion .swiper-prev',
         nextEl: '.promotion .swiper-next'
+    }
+})
+
+new Swiper('.awards .swiper-container', {
+    direction: 'horizontal',
+    autoplay: true,
+    loop: true,
+    slidesPerView: 5,
+    spaceBetween: 30,
+    navigation:{
+        prevEl: '.awards .swiper-prev',
+        nextEl: '.awards .swiper-next'
     }
 })
 
@@ -104,3 +130,6 @@ spyEls.forEach(function (spyEl) {
         .setClassToggle(spyEl, 'show')
         .addTo(new ScrollMagic.Controller())
 })
+
+const thisYear = document.querySelector('.this-year')
+thisYear.textContent = new Date().getFullYear();
